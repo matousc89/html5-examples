@@ -1,7 +1,45 @@
 
+function draw_point(ctx, xidx, yidx, st, xp, yp) {
+    ctx.beginPath();
+    ctx.strokeStyle="black";
+    ctx.lineWidth = st;
+    ctx.lineCap='butt';
+    ctx.moveTo(xidx*st*xp, yidx*st*yp + st/2.);
+    ctx.lineTo(xidx*st*xp + st, yidx*st*yp + st/2.);
+    ctx.stroke();
+};
 
+function draw_line_down(ctx, xidx, yidx, st, xp, yp) {
+    ctx.beginPath();
+    ctx.strokeStyle="black";
+    ctx.lineWidth = st;
+    ctx.lineCap='round';
+    ctx.moveTo(xidx*st*xp + st, yidx*st*yp + 0.5*st);
+    ctx.lineTo(xidx*st*xp + 1.5*st, yidx*st*yp + 0.5*st);
+    ctx.moveTo(xidx*st*xp + 7.5*st, yidx*st*yp + 7.5*st);
+    ctx.lineTo(xidx*st*xp + 8*st, yidx*st*yp + 7.5*st);
+    ctx.moveTo(xidx*st*xp + 1.5*st, yidx*st*yp + 0.5*st);
+    ctx.lineTo(xidx*st*xp + 7.5*st, yidx*st*yp + 7.5*st);
+    ctx.stroke();
+};
 
+function draw_line_up(ctx, xidx, yidx, st, xp, yp) {
+    ctx.beginPath();
+    ctx.strokeStyle="black";
+    ctx.lineWidth = st;
+    ctx.lineCap='round';
+    ctx.moveTo(xidx*st*xp + st, yidx*st*yp + 7.5*st);
+    ctx.lineTo(xidx*st*xp + 1.5*st, yidx*st*yp + 7.5*st);
+    ctx.moveTo(xidx*st*xp + 7.5*st, yidx*st*yp + 0.5*st);
+    ctx.lineTo(xidx*st*xp + 8*st, yidx*st*yp + 0.5*st);
+    ctx.moveTo(xidx*st*xp + 1.5*st, yidx*st*yp + 7.5*st);
+    ctx.lineTo(xidx*st*xp + 7.5*st, yidx*st*yp + 0.5*st);
+    ctx.stroke();
+};
 
+function coin_flip() {
+    return (Math.floor(Math.random() * 2) == 0);
+};
 
 
 window.onload = function () {
@@ -42,20 +80,17 @@ window.onload = function () {
     ctx.stroke();
 
     // the lines
-    ctx.beginPath();
-    ctx.strokeStyle="black";
-    ctx.lineWidth = st;
-    ctx.lineCap='round';
     for (xidx = 0; xidx < xi + 1; xidx++) {
         for (yidx = 0; yidx < yi + 1; yidx++) {
             // short horizontal line
-            ctx.moveTo(xidx*st*xp - 0.5*st, yidx*st*yp + st/2.);
-            ctx.lineTo(xidx*st*xp + 1.5*st, yidx*st*yp + st/2.);
-            // cross line
-            ctx.moveTo(xidx*st*xp + 1.5*st, yidx*st*yp + st/2.);
-            ctx.lineTo(xidx*st*xp + 7.5*st, yidx*st*yp + 7.5*st);
+            draw_point(ctx, xidx, yidx, st, xp, yp);
+            if (coin_flip() == true) {
+                draw_line_up(ctx, xidx, yidx, st, xp, yp);
+            } else {
+                draw_line_down(ctx, xidx, yidx, st, xp, yp);
+            };
+
         };
     };
-    ctx.stroke()
 
 }
