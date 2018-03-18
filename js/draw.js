@@ -79,12 +79,41 @@ window.onload = function () {
     };
     ctx.stroke();
 
+
+    var matrix = [];
+    for(var i=0; i < yi + 1; i++) {
+        matrix[i] = [];
+        for(var j=0; j < xi + 1; j++) {
+            matrix[i][j] = true;
+        };
+    };
+
+    for (xidx = 0; xidx < xi; xidx++) {
+        for (yidx = 1; yidx < yi; yidx++) {
+            if (xidx == 0 || xidx == xi - 1) {
+                matrix[yidx][xidx] = false;
+            } else {
+                LT = matrix[yidx-1][xidx-1];
+                RT = matrix[yidx-1][xidx];
+                LB = matrix[yidx][xidx-1];
+
+                if (LT == false && RT == true && LB == true) {
+                    matrix[yidx][xidx] = true;
+                } else {
+                    matrix[yidx][xidx] = coin_flip();
+                };
+
+
+            };
+        };
+    };
+
     // the lines
     for (xidx = 0; xidx < xi + 1; xidx++) {
         for (yidx = 0; yidx < yi + 1; yidx++) {
             // short horizontal line
             draw_point(ctx, xidx, yidx, st, xp, yp);
-            if (coin_flip() == true) {
+            if (matrix[yidx][xidx] === false) {
                 draw_line_up(ctx, xidx, yidx, st, xp, yp);
             } else {
                 draw_line_down(ctx, xidx, yidx, st, xp, yp);
@@ -92,5 +121,10 @@ window.onload = function () {
 
         };
     };
+
+
+
+
+
 
 }
